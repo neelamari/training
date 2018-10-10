@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <title>Education</title>
+    <meta name="description" content="">
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="shortcut icon" href="img/favicon.png"> -->
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet'>
+
+    <!-- Syntax Highlighter -->
+    <link rel="stylesheet" type="text/css" href="syntax-highlighter/styles/shCore.css" media="all">
+    <link rel="stylesheet" type="text/css" href="syntax-highlighter/styles/shThemeDefault.css" media="all">
+
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Normalize/Reset CSS-->
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <!-- Main CSS-->
+    <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+<body id="welcome">
+
+    <aside class="left-sidebar">
+        <div class="logo">
+            <a href="#welcome">
+                <img src="img/logo.png" alt="">
+            </a>
+        </div>
+        <nav class="left-nav">
+            <ul id="nav">
+                <li class="current">
+                    <a href="#intro">Session Summary</a>
+                </li>
+                <li>
+                    <a href="#lab001">Setting up actuator</a>
+                </li>
+                <li>
+                    <a href="#lab002">Interospection of endpoints</a>
+                </li>
+                <li>
+                    <a href="#lab003">Build and Version Control info</a>
+                </li>
+                <li>
+                    <a href="#lab004">Health check</a>
+                </li>
+                <li>
+                    <a href="#lab005">Metrics</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div id="main-wrapper">
+        <div class="main-content">
+            <section id="welcome">
+                <div class="content-header">
+                    <h1>Spring Boot Actuator</h1>
+                </div>
+                <div class="features">
+                </div>
+            </section>
+
+            <section id="intro">
+                <div class="content-header">
+                    <h1>Spring Boot Actuator</h1>
+                </div>
+                <h2 class="title">Session Summary</h2>
+                <div class="features">
+                    <a href = "https://speakerdeck.com/ankinson/mastering-spring-boots-actuator-spring-io-2018?slide=12"> Spring Boot 2.0 Actuator Overview</a>
+                </div>
+            </section>
+
+            <section id="lab001">
+                <h2 class="title">Set up the Actuator</h2>
+                <div class="section-content">
+                    <ol>
+                        <li>
+                            <p>Change to the lab directory (or continue to build off of lab001 or you can create a new
+                                lab 'lab002' and copy lab001):</p>
+                            <div class="listingblock">
+                                <div class="content">
+                                    <pre>$ cd $~/workspaces/lab001/hello-spring-boot</pre>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <p>Import the project&#8217;s <code>pom.xml</code> into your editor/IDE of choice if you
+                                haven&#8217;t already done so in a previous lab.</p>
+                        </li>
+                        <li>
+                            <p>To <code>pom.xml</code> add the following dependency to include the starter for Spring
+                                Boot Actuator:</p>
+                            <pre class="brush : html">
+                        &lt;dependency&gt;
+                            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
+                        &lt;/dependency&gt;
+                        </pre>
+                        </li>
+                        <li>
+                            <p>Add the following Actuator properties to <code>src/main/resources/application.yml</code>:</p>
+                            <pre class="brush: html">
+                            management:
+                            endpoints:
+                                web:
+                                exposure:
+                                    include: '*'
+                                base-path: /actuator
+                            </pre>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="lab002">
+
+                <h2 class="title">Interospection endpoints</h2>
+                <div class="section-content">
+                    <ol>
+                        <li>
+                            <p>Build the application:</p>
+                            <pre class="brush: html">
+                    $ mvn package
+                </pre>
+                        </li>
+                        <li>
+                            <p>Run the application:</p>
+                            <pre class="brush: html">
+                    $ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+                </pre>
+                        </li>
+                        <li>
+                            <p>Try out the following endpoints. The output is omitted here because it can be quite
+                                large:</p>
+                            <div class="dlist">
+                                <dl>
+                                    <dt class="hdlist1"><a href="http://localhost:8080/actuator" class="bare">http://localhost:8080/actuator</a></dt>
+                                    <dd>
+                                        <p>Lists all the actuator endpoints available.</p>
+                                    </dd>
+                                    <dt class="hdlist1"><a href="http://localhost:8080/actuator/beans" class="bare">http://localhost:8080/actuator/beans</a></dt>
+                                    <dd>
+                                        <p>Dumps all of the beans in the Spring context.</p>
+                                    </dd>
+                                    <dt class="hdlist1"><a href="http://localhost:8080/actuator/env" class="bare">http://localhost:8080/actuator/env</a></dt>
+                                    <dd>
+                                        <p>Dumps the application&#8217;s shell environment as well as all Java system
+                                            properties.</p>
+                                    </dd>
+                                    <dt class="hdlist1"><a href="http://localhost:8080/actuator/mappings" class="bare">http://localhost:8080/actuator/mappings</a></dt>
+                                    <dd>
+                                        <p>Dumps all URI request mappings and the controller methods to which they are
+                                            mapped.</p>
+                                    </dd>
+                                    <dt class="hdlist1"><a href="http://localhost:8080/actuator/threaddump" class="bare">http://localhost:8080/actuator/threaddump</a></dt>
+                                    <dd>
+                                        <p>Performs a thread dump.</p>
+                                    </dd>
+                                    <dt class="hdlist1"><a href="http://localhost:8080/actuator/httptrace" class="bare">http://localhost:8080/actuator/httptrace</a></dt>
+                                    <dd>
+                                        <p>Displays trace information (by default the last few HTTP requests).</p>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </li>
+                    </ol>
+
+                </div>
+            </section>
+
+            <section id="lab003">
+                <h2 class="title">Build and Version Control Info </h2>
+                <div class="section-content">
+
+                    <p>One thing that it does well is expose information about the specific build and version control
+                        coordinates for a given deployment.</p>
+                    <ol>
+                        <li>
+                            <p>Add the following plugin to your Maven build.
+                                It will add Git branch and commit coordinates to the <code>/info</code> endpoint:</p>
+                            <pre class="brush: html">
+                                &lt;plugin&gt;
+                                    &lt;groupId&gt;pl.project13.maven&lt;/groupId&gt;
+                                    &lt;artifactId&gt;git-commit-id-plugin&lt;/artifactId&gt;
+                                    &lt;configuration&gt;
+                                            &lt;dotGitDirectory&gt;.git&lt;/dotGitDirectory&gt;
+                                    &lt;/configuration&gt;
+                                &lt;/plugin&gt;
+                                </pre>
+                            <div class="admonitionblock note">
+                                <table>
+                                    <tr>
+                                        <td class="icon">
+                                        </td>
+                                        <td class="content">
+                                            <p class="fifteen">
+                                                Note: The path <code>.git</code> refers to the <code>.git</code>
+                                                directory at the root of the project.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </li>
+                        <li>
+                            <p>Add the following properties to <code>src/main/resources/application.yml</code>:</p>
+                            <pre class="brush: html">
+                                info:
+                                  build:
+                                    artifact: @project.artifactId@
+                                    name: @project.name@
+                                    description: @project.description@
+                                    version: @project.version@</pre>
+                            <p>These will add the project&#8217;s Maven coordinates to the <code>/info</code> endpoint.
+                                The Spring Boot Maven plugin will cause them to automatically be replaced in the
+                                assembled JAR.</p>
+                        </li>
+                        <li>
+                            <p>Build the application:</p>
+                            <pre class="brush: html">
+                                    $ mvn package
+                                </pre>
+                        </li>
+                        <li>
+                            <p>Run the application:</p>
+                            <pre class="brush: html">
+                                    $ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+                                </pre>
+                        </li>
+                        <li>
+                            <p>Visit the application in the browser (<a href="http://localhost:8080/info" class="bare">http://localhost:8080/info</a>),
+                                and verify that the output is similar to the following:</p>
+                            <pre class="brush : html">
+                                {
+                                    "build":{
+                                        "artifact":"hello-spring-boot",
+                                        "name":"hello-spring-boot",
+                                        "description":"Demo project for Spring Boot",
+                                        "version":"0.0.1-SNAPSHOT"
+                                    },
+                                    "git": {
+                                            "commit":
+                                                {
+                                                    "time":"2018-09-27T01:25:41Z",
+                                                    "id":"638e771"
+                                                },
+                                                "branch":"lab002-solution-complete"
+                                            }
+                                }
+                            </pre>
+                        </li>
+                    </ol>
+
+                </div>
+            </section>
+
+            <section id="lab004">
+                <h2 class="title">Health Check</h2>
+                <div class="section-content">
+
+                    <p>Spring Boot provides an endpoint (<a href="http://localhost:8080/actuator/health" class="bare">http://localhost:8080/health</a>)
+                        that allows for the notion of various health indicators.</p>
+                    <ol>
+                        <li>
+                            <p>Normally, when Spring Security is not enabled, the <code>/health</code> endpoint will
+                                only expose an <code>UP</code> or <code>DOWN</code> value.
+                                To simplify working with the endpoint for this lab, we will turn off its sensitivity.
+                                Add the following to <code>src/main/resources/application.yml</code>:</p>
+                            <pre class="brush: html">
+                endpoints:
+                    health:
+                        sensitive: false
+                </pre>
+                        </li>
+                        <li>
+                            <p>
+                                Create the class <code>io.uslab.hellospringboot.CustomHealthIndicator</code> 
+                            </p>
+                            <p>
+                                Annotate with @Component
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                Implement HealthIndicator interface using Actuator library
+                            </p>    
+                        </li>
+                        <li>
+                            <p>
+                                Add code to randomize the health check.
+                            </p>
+                            <p>
+                                An example implementation is shown below.
+                            </p>
+                            <pre class="brush : html">
+@Component
+public class CustomHealthIndicator implements HealthIndicator{
+    private Random random = new Random(System.currentTimeMillis());
+    @Override
+    public Health health() {
+        int result = random.nextInt(100);
+        if (result &lt; 50) {
+            return Health.down().withDetail("flapper", "failure").withDetail("random", result).build();
+        } else {
+            return Health.up().withDetail("flapper", "ok").withDetail("random", result).build();
+        }
+    }
+}                                                    
+                            </pre>
+                        </li>
+                        <li>
+                            <p>Build the application:</p>
+                            <pre class="brush : html">
+                                $ mvn package
+                            </pre>
+                        </li>
+                        <li>
+                            <p>Run the application:</p>
+                            <pre class="brush : html">
+                    $ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+                </pre>
+                        </li>
+                        <li>
+                            <p>Visit the application in the browser (<a href="http://localhost:8080/actuator/health">http://localhost:8080/health</a>),
+                                and verify that the output is similar to the following (and changes randomly!):</p>
+                            <pre class="brush : html">
+                                    {"status":"DOWN"}
+                                    OR 
+                                    {"status":"UP"}                                    
+                            </pre>
+                        </li>
+                    </ol>
+
+                </div>
+            </section>
+
+            <section id="lab005">
+                <h2 class="title">Metrics</h2>
+                <div class="section-content">
+                    <p>
+                        Spring Boot provides an endpoint (<a href="http://localhost:8080/actuator/metrics" class="bare">http://localhost:8080/actuator/metrics</a>)
+                        that exposes several automatically collected metrics for your application.
+                        It also allows for the creation of custom metrics.
+                    </p>
+                    <ol>
+                        <li>
+                            <p>Create the class <code>io.uslab.hellospringboot.GreetingService</code> and into it paste
+                                the following code:</p>
+                            <pre class="brush: html">
+package io.uslab.hellospringboot;
+
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class GreetingService {
+
+    private final Counter counter;
+
+    @Value("${greeting}")
+    String greeting;
+
+    public  GreetingService(MeterRegistry registry) {
+        this.counter = registry.counter("received.messages");
+    }
+
+    public String getGreeting() {
+        this.counter.increment();
+        return greeting;
+    }
+
+}
+                                    
+                            </pre>
+                            <p>This class is using the <code>MeterService</code> <code>Counter</code> to count the
+                                number of times that the <code>getGreeting()</code> method has been invoked.</p>
+                            <p>
+                                Note; Prior to Spring boot 2.0, this was CounterService
+                            </p>
+                        </li>
+                        <li>
+                            <p>Refactor the contents of the class <code>io.uslab.hellospringboot.HelloSpringBootApplication</code>:</p>
+                            <pre class="brush: html">
+package io.uslab.hellospringboot;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@SpringBootApplication
+public class HelloSpringBootApplication {
+
+    @Autowired
+    private GreetingService greetingService;
+
+    public static void main(String[] args) {
+        SpringApplication.run(HelloSpringBootApplication.class, args);
+    }
+
+    @RequestMapping("/")
+    public String hello() {
+        //return String.format("%s World!", greeting);
+        return String.format("%s World!", greetingService.getGreeting());
+    }
+}
+                                    
+                            </pre>
+                            <p><code>hello()</code> is now delegating the source of the greeting to our newly created
+                                <code>GreetingService</code>.</p>
+                        </li>
+                        <li>
+                            <p>Build the application:</p>
+                            <pre class="brush: html">
+                                    $ mvn package
+                                </pre>
+                        </li>
+                        <li>
+                            <p>Run the application:</p>
+                            <pre class="brush: html">
+                                    $ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+                                </pre>
+                        </li>
+                        <li>
+                            <p>Visit the application in the browser (<a href="http://localhost:8080" class="bare">http://localhost:8080</a>)
+                                and refresh the page several times.</p>
+                        </li>
+                        <li>
+                            <p>Now visit the <code>/metrics</code> endpoint (<a href="http://localhost:8080/actuator/metrics"
+                                    class="bare">http://localhost:8080/actuator/metrics</a>).
+                                <br>
+                                This should list all metrics available.
+                            </p>
+                        </li>    
+                        <li>
+                            <p>
+                                Now visit  <code>/metrics/received.messages</code> endpoint (<a href="http://localhost:8080/actuator/metrics/received.messages"
+                                class="bare">http://localhost:8080/actuator/metrics/received.messages</a>).
+                            </p>
+                            <pre class="brush: html">
+    {
+        "name":"received.messages",
+        "description":null,
+        "baseUnit":null,
+        "measurements":[{"statistic":"COUNT","value":2.0}],
+        "availableTags":[]
+    }
+
+                                </pre>
+                            <p>To learn more about the autogenerated metrics, visit <a href="http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html"
+                                    class="bare">http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html</a>.</p>
+                        </li>
+                    </ol>
+
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+
+    <!-- Essential JavaScript Libraries
+	==============================================-->
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery.nav.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushCss.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushPhp.js"></script>
+    <script type="text/javascript">
+        SyntaxHighlighter.all()
+    </script>
+    <script type="text/javascript" src="js/custom.js"></script>
+
+</body>
+
+</html>

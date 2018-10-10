@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <title>Education</title>
+    <meta name="description" content="">
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="shortcut icon" href="img/favicon.png"> -->
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet'>
+
+    <!-- Syntax Highlighter -->
+    <link rel="stylesheet" type="text/css" href="syntax-highlighter/styles/shCore.css" media="all">
+    <link rel="stylesheet" type="text/css" href="syntax-highlighter/styles/shThemeDefault.css" media="all">
+
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Normalize/Reset CSS-->
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <!-- Main CSS-->
+    <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+<body id="welcome">
+
+    <aside class="left-sidebar">
+        <div class="logo">
+            <a href="#welcome">
+                <img src="img/logo.png" alt="">
+            </a>
+        </div>
+        <nav class="left-nav">
+            <ul id="nav">
+                <li class="current">
+                    <a href="#intro">Session Summary</a>
+                </li>
+                <li>
+                    <a href="#lab001">Using CF CLI</a>
+                </li>
+                <li>
+                    <a href="#lab002">Setting CF TARGET</a>
+                </li>
+                <li>
+                    <a href="#lab003">Deploying using CF PUSH</a>
+                </li>
+                <li>
+                    <a href="#lab004">CF Environment Variables</a>
+                </li>
+                <li>
+                    <a href="#lab005">Deploy application</a>
+                </li>
+                <li>
+                    <a href="#lab006">Scaling </a>
+                </li>
+                <li>
+                    <a href="#lab007">Manifest</a>
+                </li>
+                <li>
+                    <a href="#lab008">Routes</a>
+                </li>
+                <li>
+                    <a href="#extras">Extras</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div id="main-wrapper">
+        
+        <div class="content-header">
+            <h1>Deploying application to Cloud Foundry</h1>
+        </div>
+
+        <div class="main-content">
+            <section id="intro">
+                <h2 class="title">Session Summary</h2>
+                <div class="section-content">
+                    <a href="https://www.slideshare.net/Pivotal/t3-pivotal-cloud-foundry-a-technical-overview">CF Technical Overview</a>
+                    <br>
+                    <br>
+
+                    <h4> Lab setup </h4>
+
+                    <ol>
+                        <li>
+                            <p class="fifteen"> 
+                                Clone <a href="https://github.com/neelamari/hello-spring-boot">this</a> repo locally if you don't have it. 
+                                <br>
+                                If you already have this forked, sync up your local repo with forked repo 
+                            </p>                            
+                        </li>
+                        <li>
+                            <p class="fifteen"> 
+                                Use the following branch
+                                <br>
+                                Branch name: lab003-solution-initial <br> 
+                                <pre class="brush: html">
+                                    git checkout lab003-solution-initial
+                                </pre>
+                            </p>
+                        </li>
+                        <li>
+                            <p class="fifteen"> 
+                                Create a new working branch to make changes 
+                                <pre class="brush: html">
+                                    git checkout -b lab003-solution-complete 
+                                </pre>
+                            </p>  
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="lab001">
+                <h2 class="title"> 
+                    CF CLI
+                </h2>
+                <div class="section-content">
+                    <ol>
+                        <li>
+                            <p class="fifteen">Verify if CLI is installed</p>
+                            <p class="fifteen">
+                                <pre class="brush: html">
+                                     cf --version
+                                </pre>
+                            </p>                               
+                            <pre class="brush : html">
+                                
+                                cf version 6.29.1+d5129d651.2017-08-17                                
+                            </pre>
+                        </li>
+                        <li>
+                            <p class="fifteen">
+                                Use cf -help to view list of available tasks
+                            </p>    
+                            <p class="fifteen">
+                                    <pre class="brush: html">
+                                        ➜  cf -help
+                                    </pre>
+                                </p>                               
+                            <pre class="brush : html">
+                                cf version 6.29.1+d5129d651.2017-08-17, Cloud Foundry command line tool
+                                Usage: cf [global options] command [arguments...] [command options]
+                                
+                                Before getting started:
+                                  config    login,l      target,t
+                                  help,h    logout,lo
+                                
+                                Application lifecycle:
+                                  apps,a        run-task,rt    events
+                                  push,p        logs           set-env,se
+                                  start,st      ssh            create-app-manifest
+                                  stop,sp       app
+                                  restart,rs    env,e
+                                  restage,rg    scale
+                                
+                                Services integration:
+                                  marketplace,m        create-user-provided-service,cups
+                                  services,s           update-user-provided-service,uups
+                                  create-service,cs    create-service-key,csk
+                                  update-service       delete-service-key,dsk
+                                  delete-service,ds    service-keys,sk
+                                  service              service-key
+                                  bind-service,bs      bind-route-service,brs
+                                  unbind-service,us    unbind-route-service,urs
+                                
+                                Route and domain management:
+                                  routes,r        delete-route    create-domain
+                                  domains         map-route
+                                  create-route    unmap-route
+                                
+                                Space management:
+                                  spaces         create-space    set-space-role
+                                  space-users    delete-space    unset-space-role
+                                
+                                Org management:
+                                  orgs,o       set-org-role
+                                  org-users    unset-org-role
+                                
+                                CLI plugin management:
+                                  plugins           add-plugin-repo      repo-plugins
+                                  install-plugin    list-plugin-repos
+                                
+                                Commands offered by installed plugins:
+                                  bluemix-admin,ba    disable-diego        migrate-apps
+                                  dea-apps            enable-diego         dev,pcfdev
+                                  diego-apps          has-diego-enabled
+                                
+                                Global options:
+                                  --help, -h                         Show help
+                                  -v                                 Print API request diagnostics to stdout
+                                
+                                These are commonly used commands. Use 'cf help -a' to see all, with descriptions.
+                                See 'cf help <command>' to read about a specific command.                                
+                            </pre>                                
+                            </p>
+                        </li>
+                    </ol>    
+                </div>
+            </section>
+    
+            <section id="lab002">
+                <h2 class="title"> 
+                    CF TARGET
+                </h2>
+                <div class="section-content">
+                    <ol>
+                        <li>
+                            <p class="fifteen">
+                                CF CLI can interact with multiple Cloud foundry foundations. It is necessary to tell CF CLI to set a target foundation. 
+                                <br>
+                                For example, to use the public cloud PCF instance use the following login.
+                            </p>
+                            <p class="fifteen">
+                                    <pre class="brush: html">
+                                         cf login -a https://api.run.pivotal.io.
+                                    </pre>
+                                    Enter your user id, password and select Organization.
+                            </p>
+                            <pre class="brush: html">
+                                    API endpoint: https://api.run.pivotal.io
+
+                                    Email> sivakumar.jegathalamani@gmail.com
+                                    
+                                    Password>
+                                    Authenticating...
+                                    OK
+                                    
+                                    Select an org (or press enter to skip):
+                                    1. achu
+                                    2. annamalai.mani-org
+                                    
+                                    Org> 2
+                                    Targeted org annamalai.mani-org
+                                    
+                                    Targeted space development
+                                    
+                                    
+                                    
+                                    API endpoint:   https://api.run.pivotal.io (API version: 2.123.0)
+                                    User:           sivakumar.jegathalamani@gmail.com
+                                    Org:            annamalai.mani-org
+                                    Space:          development                                
+                            </pre>
+                        </li>
+                        <li>
+                            <p class="fifteen">
+                                Use the <b>cf target</b> command to verify if target foundation is correct 
+                            </p>
+                            <pre class="brush: html">
+                                api endpoint:   https://api.run.pivotal.io
+                                api version:    2.123.0
+                                user:           sivakumar.jegathalamani@gmail.com
+                                org:            annamalai.mani-org
+                                space:          development
+                            </pre>
+                        </li>
+
+                    </ol>
+                    
+                </div>
+            </section>
+    
+            <section id="lab003">
+                <h2 class="title"> 
+                    Deploy application using CF PUSH
+                </h2>
+                <div class="section-content">
+                    <ol>
+                        <li>
+                            <p>Build your application</p>
+                            <pre class="brush: html">
+                                mvn clean install
+                            </pre>
+                        </li>
+                        <li>
+                            <p>
+                                Push the application using the cf push command with application name hello-spring .
+                                <br> 
+                                Use the -p option to and use random-route 
+                            </p>
+                            <p class="fifteen">
+                                <pre class="brush: html">
+                                    cf push hello-spring -p target/hello-spring-boot-0.0.1-SNAPSHOT.jar --random-route
+                                </pre>
+                            </b>
+                            <br>
+                                Use the help command if you need any help.
+                            <br>
+                                You will see that 
+                                <ol>
+                                    <li>
+                                        CF CLI uploads the JAR file 
+                                    </li>
+                                    <li>
+                                        Cloud foundry begins staging process
+                                    </li>
+                                    <li>
+                                        Cloud foundry will start the application.
+                                    </li>
+                                    <li>
+                                        Output is shown in console.
+                                    </li>
+                                </ol>
+                            </p>
+                        </li>
+                        <li>
+                            Check if application is working correctly by visiting the URL displayed.
+                        </li>
+                    </ol>
+                </div>
+            </section>
+    
+            <section id="lab004">
+                <h2 class="title"> 
+                    CF Environment Variables
+                </h2>
+                <div class="section-content">
+                    <p>
+                            When Cloud Foundry starts your application, it will be running with a port provided by the runtime environment. If the app has multiple instances, it will also have an instance ID set.
+                    </p>
+                    <p>
+                            Create an endpoint to see some of that information
+                    </p>
+                    <ol>
+                        <li>
+                            Create a controller class called EnvironmentController 
+                        </li>
+                        <li>
+                            Annotate it with @RestController
+                        </li>
+                        <li>
+                            Declare the following @Value annotated constructor arguments 
+                            <ol>
+                                <li>
+                                    PORT
+                                </li>
+                                <li>
+                                    CF_INSTANCE_GUID
+                                </li>
+                                <li>
+                                    CF_INSTANCE_IP
+                                </li>
+                                <li>
+                                    CF_INSTANCE_PORT
+                                </li>
+                                <li>
+                                    HOME
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            Create a constructor which will accept these variable and set
+                        </li>
+                        <li>
+                            Add a default value to above variables so application will load correctly. Example is shown below.
+                            <pre class="brush: html">
+                                    @Value("${PORT:NOT SET}") String vcapApplication
+                            </pre>
+                            <p>
+                                Example shown below.
+                            </p>
+                            <pre class="brush: html">
+private final String port;
+private final String cfInstanceGuid;
+private final String cfInstanceIp;
+private final String cfInstancePort;
+private final String home;
+
+public EnvironmentController(
+    @Value("${PORT:NOT SET}") String port,
+    @Value("${CF_INSTANCE_GUID:NOT SET}") String cfInstanceGuid,
+    @Value("${CF_INSTANCE_IP:NOT SET}") String cfInstanceIp,
+    @Value("${CF_INSTANCE_PORT:NOT SET}") String cfInstancePort,
+    @Value("${HOME:NOT SET}") String home
+) {
+    this.port = port;
+    this.cfInstanceGuid = cfInstanceGuid;
+    this.cfInstanceIp = cfInstanceIp;
+    this.cfInstancePort = cfInstancePort;
+    this.home = home;
+}
+                            </pre>                            
+                        </li>
+                        <li>
+                            <p class="fifteen">                                  
+                                Create a RESTful endpoint and method called getEnvironment.
+                                <br>
+                                <ol>
+                                    <li>
+                                        Method should be a HTTP GET with "/env" endpoint
+                                    </li>
+                                    <li>
+                                        Method should return a Map (HashMap) &lt;String, String&gt;
+                                    </li>
+                                    <li>
+                                        Add the environment variables to the HashMap
+                                    </li>
+                                </ol>
+
+                            </p>
+                        </li>
+                        <li>
+                            <p>Take a look at our solution if you get stuck.</p>
+                            <pre class="brush: html">
+package io.uslab.hellospringboot;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+public class EnvironmentController {
+
+    private final String port;
+    private final String cfInstanceGuid;
+    private final String cfInstanceIp;
+    private final String cfInstancePort;
+    private final String home;
+
+    public EnvironmentController(
+            @Value("${PORT:NOT SET}") String port,
+            @Value("${CF_INSTANCE_GUID:NOT SET}") String cfInstanceGuid,
+            @Value("${CF_INSTANCE_IP:NOT SET}") String cfInstanceIp,
+            @Value("${CF_INSTANCE_PORT:NOT SET}") String cfInstancePort,
+            @Value("${HOME:NOT SET}") String home
+    ) {
+        this.port = port;
+        this.cfInstanceGuid = cfInstanceGuid;
+        this.cfInstanceIp = cfInstanceIp;
+        this.cfInstancePort = cfInstancePort;
+        this.home = home;
+    }
+
+    @GetMapping("/env")
+    public Map<String, String> getEnvironment() {
+        Map<String, String> map = new HashMap<>();
+        map.put("PORT", port);
+        map.put("CF_INSTANCE_GUID", cfInstanceGuid);
+        map.put("CF_INSTANCE_IP", cfInstanceIp);
+        map.put("CF_INSTANCE_PORT", cfInstancePort);
+        map.put("HOME", home);
+        return map;
+    }
+}
+                            </pre>
+                        </li>
+                        <li>
+                            <p>
+                                Run your application and verify <a href="http://localhost:8080/env"> http://localhost:8080/env </a> You should get a response and see "NOT SET" values.
+                                <pre class="brush: html">
+                                    mvn clean install 
+                                    java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+                                </pre>
+                            </p>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="lab005">
+                <h2 class="title"> 
+                    Deploy application 
+                </h2>
+                <div class="section-content">
+                    <ol>
+                        <li>
+                            <p>Build your application</p>
+                            <pre class="brush: html">
+                                mvn clean install
+                            </pre>
+                        </li>
+                        <li>
+                            <p>
+                                Push the application using the cf push command with application name hello-spring .
+                                <br> 
+                                Use the -p option to and use random-route 
+                            </p>
+                            <p class="fifteen">
+                                <pre class="brush: html">
+                                    cf push hello-spring -p target/hello-spring-boot-0.0.1-SNAPSHOT.jar --random-route
+                                </pre>
+                            </p>
+                        </li>
+                        <li>
+                            CF will STDOUT, STDERR all logs.
+                        </li>
+                        <li>
+                            <p>
+                                Use cf logs cmmand to check output.
+                            </p>
+                            <pre class="brush: html">
+                                cf logs hello-spring --recent 
+                            </pre>
+                        </li>
+                        <li>
+                            <p>
+                            When you visit the application URL, you will notice that application has used config value for GREETING set in application.yml.
+                            <br>
+                            <br>
+                            Since you use random-route make sure you are checking the correct URL. 
+                            You can find out the application URL by using <b> cf app </b> command 
+                            <pre class="brush: html">
+                                cf app hello-spring
+                            </pre>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                            Change the environment value in Cloud Foundry using CF CLI cf set-env command
+                            </p>
+                            <pre class="brush: html">
+                                cf set-env APP_NAME ENV_VAR_NAME ENV_VAR_VALUE 
+                                e.g 
+                                cf set-env hello-spring GREETING Namaste 
+                            </pre>
+                        </li>
+                        <li>
+                            <p>
+                                Rebuild application                                 
+                            </p>
+                            <pre class="brush: html">
+                                cf restage hello-spring
+                            </pre>
+                        </li>
+                        <li>
+                            Navigate to the URL and verify the endpoints. 
+                            <br>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="lab006">
+                <h2 class="title"> 
+                    CF Scale 
+                </h2>
+                <div class="section-content">
+                    <ol>
+                        <li>
+                            <p>
+                                Cloud Foundry supports two types of scaling:
+                            </p>
+                            <ol>
+                                <li>
+                                        Vertical scaling: Each app instance has more memory or disk space.
+                                </li>
+                                <li>
+                                        Horizontal scaling: There are more app instances serving requests.
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <h4>
+                                Vertical scaling example - Scale memory 
+                            </h4>
+                            <ol>
+                                <li>
+                                    Use the cf scale command to scale memory. Use the -m and -f flags 
+                                    <br>
+                                    -m changes the memory 
+                                    <br>
+                                    -f forces the restart
+                                    <br>
+                                    Example is showm below. 
+                                </li>
+                                <li>
+                                    <pre class="brush: html">
+                                        cf scale hello-spring -m128M -f 
+                                    </pre>
+                                </li>
+                                <li>
+                                    You will see that the instance is restarted.
+                                    <br>
+                                    Use the app command to see the status. 
+                                    <br>
+                                    Note that the memory quota has changed 
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <h4>
+                                Horizontal scaling example - Scale number of instances 
+                            </h4>
+                            <ol>
+                                <li>
+                                    Use the cf scale command to scale instances.   
+                                    <br>
+                                    -i changes the number of instances  
+                                    <br>
+                                    Example is showm below. 
+                                </li>
+                                <li>
+                                    <pre class="brush: html">
+                                        cf scale hello-spring -i 2 
+                                    </pre>
+                                </li>
+                                <li>
+                                    Changing number of instances does not require restart.
+                                    <br>
+                                    Use the app command to see the status. 
+                                    <br>
+                                    Wait for a moment to see app spin up new instances.
+                                    <br>
+                                    Verify the new endpoints to check app is working.
+                                    <br>
+                                    Note that the CF_INSTANCE_INDEX changes 
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="lab007">
+                    <h2 class="title"> 
+                        Using manifest file 
+                    </h2>
+                    <div class="section-content">
+                        <ol>
+                            <li>
+                                Failures seen during our initial deployment can be avoided using manifest files.                                 
+                            </li>
+                            <li>
+                                Manifest file is appropriate place to configure application parametrrs. 
+                                <br>
+                                Example: 
+                                <br>
+                                    Environment variables
+                                <br> 
+                                    Backing services 
+                            </li>
+                            <li>
+                                Create a manifest.yml file in the root of the project. 
+                            </li>
+                            <li>
+                                An example is shown below 
+                                <pre class="brush: html">
+                                        ---
+                                        applications:
+                                        - name: hello-spring
+                                          memory: 1G
+                                          instances: 1
+                                          path: target/hello-spring-boot-0.0.1-SNAPSHOT.jar  
+                                          random-route: true
+                                          env:
+                                            GREETING: Hello from DAS                                 
+                                </pre>
+                            </li>
+                            <li>
+                                Now let us see how to use manifest file.
+                            </li>>
+                            <li>
+                                Delate your app 
+                                <pre class="brush: html">
+                                    cf delete hello-spring
+                                </pre>
+                            </li>
+                            <li>
+                                Push your app using cf push . Note no other parameters are required 
+                                <pre class="brush: html">
+                                    cf push 
+                                </pre>
+                            </li>
+                            <li>
+                                Verify if your application is working by visiting the URL.
+                                <br>
+                                Note that the URL can change besause random-route is used.  
+                            </li>
+                            <li>
+                                <p>
+                                    Commit your changes and push to github  
+                                    <pre class="brush: html">
+                                        git push --set-upstream origin lab003-solution-complete
+                                            OR 
+                                        git push origin lab003-solution-complete  
+                                    </pre>        
+                                </p>    
+                            </li>                                   
+                        </ol>
+                    </div>
+                </section>
+                
+                <section id="lab008">
+                    <h2 class="title"> 
+                        Routes 
+                    </h2>
+                    <div class="section-content">
+                        <p>
+                            All requests to applications running on Cloud foundry goes through the router. 
+                            Whwn requests comes in, it is routed to application instances in round robin fashion. 
+                            We used random-route because route is bound to CF Installation. 
+                            Only one route with same name is allowed.
+                        </p>
+                        <ol>
+                            <li>
+                                Multiple routes can be used for application as well.
+                                e.g Blue green deployments 
+                            </li>
+                            <li>
+                                To map a new route use map-route command 
+                            </li>
+                            <li>
+                                To unmap a route, use unmap-route command 
+                            </li>
+                        </ol>
+    
+                    </div>
+                </section>
+
+                <section id="extras">
+                    <h2 class="title">
+                        Extras
+                    </h2>
+                    <div class="secton-content">
+                        <p>If you are finished with this assignment before the rest of the class is
+                                done, explore the cf CLI by reading the <a href="https://docs.run.pivotal.io/cf-cli/cf-help.html" rel="noreferrer noopener">documentation</a>
+                                or by running <code>cf help</code> and <code>cf &lt;command&gt; --help</code>.
+                                Some of our favorite commands are <a href="http://cli.cloudfoundry.org/en-US/cf/scale.html" rel="noreferrer noopener"><code>scale</code></a>,
+                                <a href="http://cli.cloudfoundry.org/en-US/cf/ssh.html" rel="noreferrer noopener"><code>ssh</code></a>, and <a href="http://cli.cloudfoundry.org/en-US/cf/ssh.html" rel="noreferrer noopener"><code>env</code></a>.</p>
+                                                        
+                    </div>
+                </section>
+                    
+        </div>
+    </div>
+
+
+    <!-- Essential JavaScript Libraries
+	==============================================-->
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery.nav.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushCss.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushPhp.js"></script>
+    <script type="text/javascript">
+        SyntaxHighlighter.all()
+    </script>
+    <script type="text/javascript" src="js/custom.js"></script>
+
+</body>
+
+</html>

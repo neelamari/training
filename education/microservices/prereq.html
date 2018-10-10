@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<title>Education</title>
+	<meta name="description" content="">
+	<!-- Mobile Specific Meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- <link rel="shortcut icon" href="img/favicon.png"> -->
+	
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet'>
+	
+	<!-- Syntax Highlighter -->
+	<link rel="stylesheet" type="text/css" href="syntax-highlighter/styles/shCore.css" media="all">
+	<link rel="stylesheet" type="text/css" href="syntax-highlighter/styles/shThemeDefault.css" media="all">
+	
+	<!-- Font Awesome CSS-->
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<!-- Normalize/Reset CSS-->
+	<link rel="stylesheet" href="css/normalize.min.css">
+	<!-- Main CSS-->
+	<link rel="stylesheet" href="css/main.css">
+	
+</head>
+
+<body id="welcome">
+	
+	<aside class="left-sidebar">
+		<div class="logo">
+			<a href="#welcome">
+				<img src="img/logo.png" alt="">
+			</a>
+		</div>
+		<nav class="left-nav">
+			<ul id="nav">
+				<li class="current"><a href="#welcome">Before you Start</a></li>
+				<li><a href="#package-manager">Package Manager</a></li>
+				<li><a href="#bash">Bash Terminal</a></li>
+				<li><a href="#git">Git</a></li>
+				<li><a href="#java">Java</a></li>
+				<li><a href="#IntelliJ">IntelliJ</a></li>
+				<li><a href="#Docker">Docker</a></li>
+				<li><a href="#cli">Cloud foundry CLI</a></li>
+				<li><a href="#pcf">Signing up for PCF</a></li>
+				<li><a href="#pcfdev">PCF Dev</a></li>
+				<li><a href="#other">Other software</a></li>
+
+			</ul>
+		</nav>
+	</aside>
+	
+	<div id="main-wrapper">
+		<div class="main-content">
+			<section id="welcome">
+				<div class="content-header">
+					<h1>Cloud Native Microservices Pre Requisites</h1>
+				</div>
+				<div class="welcome">
+					<h2 class="twenty">Before you Start</h2>
+					<p>This lab is intended to assist installation of software required for a Java Microservices Lab course. 
+							Please skip this lab if you already have the software.!</p>
+				</div>
+				
+				<div class="features">
+
+				</div>
+			</section>
+			
+			<section id="package-manager">
+
+				<h2 class="title">Package Manager</h2>
+				
+				<div class="section-content">
+					<ol>
+						<li>MacOS:
+							<p>
+								<a href="https://brew.sh/">Home Brew</a>
+							</p>	
+						</li>
+						<li>Windows:
+							<p>
+								We don't have any preferen=nce. Can use  
+								<a href="https://chocolatey.org/">Chocolatey</a>
+							</p>	
+						</li>
+					</ol>
+				</div>
+				
+			</section>
+			<section id="bash">
+				<h2 class="title">Bash Terminal</h2>
+				<div class="section-content">
+						<ol>
+							<li>MacOS:
+								<p>
+									Prefer using iTerm2 <a href="https://www.iterm2.com/"> iTerm2 </a>
+								</p>	
+							</li>
+							<li>Windows:
+								<p>
+									We will be using   
+									<a href="https://git-scm.com/downloads">Git Bash></a> 
+								</p>	
+							</li>
+						</ol>
+					</div>
+			</section>
+			<section id="git">
+				<h2 class="title">Git</h2>
+				<div class="section-content">
+						<ol>
+							<li>MacOS:
+								<p class="fifteen">
+									Assuming home brew package manager is already installed
+								</p>	
+								<pre class="brush: html">
+										brew install git
+								</pre>					
+							</li>
+							<li>Windows:
+								<p>
+									Git Bash is already installed in previous step. 
+									Git Bash is inclusive and gets installed when Git is installed.
+								</p>	
+							</li>
+						</ol>
+					</div>
+			</section>
+			
+			<section id="java">
+				<h2 class="title">Java</h2>	
+				<div class="section-content">
+						<ol>
+							<li>MacOS:
+								<p class="fifteen">
+									Assuming home brew package manager is already installed
+								</p>	
+								<pre class="brush: html">
+										brew cask install java
+								</pre>					
+							</li>
+							<li>Windows:
+								<p>
+									<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" >Download</a>
+									 and install Java version 1.8 and above. 
+
+									 Prefered to install most recent version.
+								</p>	
+							</li>
+							<li> Verifying version.
+									<p class="fifteen">
+											Verify if version installed is used. If not set JAVA_HOME
+										</p>	
+										<pre class="brush: html">
+												java -version
+										</pre>							
+							</li>
+						</ol>
+					</div>
+				</section>
+				
+				<section id="IntelliJ">
+					<h2 class="title"> IntelliJ </h2>
+					<p>
+							IntelliJ offers a free 
+							<a href="https://www.jetbrains.com/idea/features/editions_comparison_matrix.html">Community Edition</a> 
+							that is sufficient for the course.
+
+							If you have eclipse or STS, that will work as well.
+
+							IntelliJ is prefered as it offers support over other editors for 
+							building distributed systems. 
+					</p>	
+				</section>
+
+				<section id="Docker">
+					<h2 class="title"> Docker </h2>
+					<div class="section-content">
+							<ol>
+								<li>MacOS:
+									<p class="fifteen">
+										Follow instructions on Docker Getting Started guide to install Docker. 
+										<br>													
+										Either install the Docker toolkit or individual components depending on configuration your machine supports. 
+										Note that you need to install VirtualBox if older machines are used. This is described in the getting started guide.
+										<br>			
+										Getting started guide for Mac is <a href="https://docs.docker.com/docker-for-mac/"> here  </a>here
+										<br>			
+										Once your installation is complete verify installation 
+									</p>	
+								</li>
+								<li>Windows:
+									<p>
+											Follow instructions on Docker Getting Started guide to install Docker. 
+											<br>			
+											Either install the Docker toolkit or individual components depending on configuration your machine supports. 
+											Note that you need to install VirtualBox if older machines are used. This is described in the getting started guide.
+											<br>
+											Getting started guide for Windows is <a href="https://docs.docker.com/docker-for-windows/"> here  </a>
+											<br>	
+											Once your installation is complete verify installation 
+									</p>	
+								</li>
+								<li>
+									<p> Verify your installation</p>
+										<pre class="brush: html">
+
+												docker-machine --version
+		
+												docker --version
+													
+												docker-machine start
+												
+												docker-machine env
+		
+												eval $(docker-machine env)
+		
+												docker images 
+													
+											</pre>					
+		
+								</li>
+							</ol>
+						</div>
+	
+				</section>
+			
+				<section id="cli">
+					<h2 class="title"> Cloud foundry CLI </h2>
+					<div class="section-content">
+							<ol>
+								<li>MacOS:
+									<p class="fifteen">
+										Install the Cloud Foundry CLI
+									</p>								</p>	
+									<pre class="brush: html">
+											brew install cloudfoundry/tap/cf-cli
+									</pre>					
+							</li>
+								<li>Windows:
+									<p>
+											Navigate to the <a href="https://github.com/cloudfoundry/cli/releases">CF CLI download</a> page and install the latest release.
+
+											Use the CF CLI commands with Windows Command prompt (not GIT Bash)
+									</p>	
+								</li>
+							</ol>
+						</div>
+				</section>
+				<section id="pcf">
+					<h2 class="title">Signup for PCF</h2>
+					<div class="section-content">
+						<p>
+							Sign up for <a href="https://account.run.pivotal.io/z/uaa/sign-up">Pivotal free trial account </a>
+						</p>
+					</div>
+				</section>
+				<section id="pcfdev">
+						<h2 class="title">Installing PCFDEV</h2>
+						<div class="section-content">
+							<p>
+								Use the geting started guide for <a href="https://pivotal.io/platform/pcf-tutorials/getting-started-with-pivotal-cloud-foundry-dev/introduction">PCFDEV</a> to install PCFDEV.
+								<br>
+								<br>	
+								PCFDEV allows you to develop locally in your machine instead of Public cloud without connectiity.
+								<br>
+								For most part of this course, PCFDev is sufficient to complete lab exercises. 	
+							</p>
+						</div>
+				</section>	
+				<section id="other">
+					<h2 class="title">Other software</h2>
+					<div class="section-content">
+							<p>
+								Install the other software required .
+								<br>
+								For most software, you may use Docker images instead of installing.
+								Recommended to use Docker images when available. 
+							</p>
+							<ol>
+								<li>MySQL:
+									<p class="fifteen">
+										MySQL <a href="https://dev.mysql.com/downloads/installer/">(download) </a> . Docker image 
+										Install the Cloud Foundry CLI
+									</p>								</p>	
+									<pre class="brush: html">
+										Either use image or Docker compose.
+										docker search mariadb
+										docker pull mariadb:latest
+									</pre>					
+								</li>
+								<li>Gradle:
+										<p class="fifteen">
+											<a href="https://gradle.org/install/#manually">Download</a> 
+										</p>								</p>					
+								</li>
+								<li>Flyway:
+										<p class="fifteen">
+											<a href="https://flywaydb.org/download/community">Download</a> 
+										</p>								</p>					
+								</li>								
+								<li>Graphviz:
+										<p class="fifteen">
+											<a href="https://graphviz.gitlab.io/">Download</a> 
+										</p>								</p>					
+								</li>	
+								<li>RabbitMQ:
+									<p class="fifteen">
+										<a href="https://www.rabbitmq.com/install-windows.html">Download</a> 											
+									</p>
+									<P>	
+										<pre class="brush: html">
+											Either use image or Docker compose.											
+											https://docs.docker.com/samples/library/rabbitmq/
+										</pre>
+									</p>																	</p>					
+								</li>	
+								<li>Maven:
+									<p class="fifteen">
+										<a href="https://maven.apache.org/guides/getting-started/windows-prerequisites.html">Download</a> 											
+									</p>
+								</li>																
+								<li>Tomcat:
+									<p class="fifteen">
+										<a href="http://tomee.apache.org/installing-tomee.html">Download</a> 											
+									</p>
+								</li>																
+								<li>Minio:
+									<p class="fifteen">
+										<a href="https://www.minio.io/downloads.html">Download</a> 											
+									</p>
+								</li>																
+								<li>AWS CLI:
+									<p class="fifteen">
+										<a href="https://docs.aws.amazon.com/cli/latest/userguide/installing.html">Download</a> 											
+									</p>
+								</li>																
+							</ol>	
+
+					</div>
+				</section>					
+				
+
+		</div>
+	</div>
+	
+	
+	<!-- Essential JavaScript Libraries
+	==============================================-->
+	<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="js/jquery.nav.js"></script>
+	<script type="text/javascript" src="syntax-highlighter/scripts/shCore.js"></script>
+	<script type="text/javascript" src="syntax-highlighter/scripts/shBrushXml.js"></script>
+	<script type="text/javascript" src="syntax-highlighter/scripts/shBrushCss.js"></script>
+	<script type="text/javascript" src="syntax-highlighter/scripts/shBrushJScript.js"></script>
+	<script type="text/javascript" src="syntax-highlighter/scripts/shBrushPhp.js"></script>
+	<script type="text/javascript">
+	SyntaxHighlighter.all()
+	</script>
+	<script type="text/javascript" src="js/custom.js"></script>
+	
+</body>
+</html>
