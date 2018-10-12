@@ -41,9 +41,6 @@
         <nav class="left-nav">
             <ul id="nav">
                 <li class="current">
-                    <a href="#welcome">Before you Start</a>
-                </li>
-                <li>
                     <a href="#intro">Session Summary</a>
                 </li>
                 <li>
@@ -53,28 +50,19 @@
                     <a href="#lab002">Bootstrap the application</a>
                 </li>
                 <li>
-                    <a href="#lab003">Header 3</a>
+                    <a href="#lab003">Setting up project</a>
                 </li>
                 <li>
-                    <a href="#lab004">Header 4</a>
+                    <a href="#lab004">Time Entries - Data Layer</a>
                 </li>
                 <li>
-                    <a href="#lab005">Header 5</a>
+                    <a href="#lab005">Time Entries - Object deserialization</a>
                 </li>
                 <li>
-                    <a href="#lab006">Header 6</a>
+                    <a href="#lab006">Time Entries - Rest Controller</a>
                 </li>
                 <li>
-                    <a href="#lab007">Header 7</a>
-                </li>
-                <li>
-                    <a href="#lab008">Header 8</a>
-                </li>
-                <li>
-                    <a href="#lab009">Header 9</a>
-                </li>                
-                <li>
-                    <a href="#lab009">Extras</a>
+                    <a href="#extras">Extras</a>
                 </li>
             </ul>
         </nav>
@@ -84,13 +72,12 @@
         <div class="main-content">
             <section id="welcome">
                 <div class="content-header">
-                    <h1>
-
-                    </h1>
+                        <h1>Spring MVC REST API</h1>
                 </div>
                 <div class="features">
                 </div>
             </section>
+
 
             <section id="intro">
                 <h2 class="title">Session Summary</h2>
@@ -103,13 +90,14 @@
                 <div class="section-content">
                     <ol>
                         <li>
-                            Fork this repo 
+                            Fork this <a href="https://github.com/platform-acceleration-lab/pal-tracker">repo</a> 
                         </li>
                         <li>
-                            Make a local copy of the forked repo. Clone this to your workspace 
+                            Clone the forked repo in your workspace 
                             <pre class="brush: html">
-                                ~/workspace/offers
-                                git clone FORKED URL 
+                                cd ~/workspace
+                                git clone  "your git url of forked repo"
+                                e.g git clone https://github.com/neelamari/pal-tracker.git  
                             </pre>
                         </li>
                         <li>
@@ -120,6 +108,12 @@
                         </li>
                         <li>
                             Create an empty build.gradle file in the same directory 
+                        </li>
+                        <li>
+                            Pull in some failing tests from git  
+                            <pre class="brush: html">
+                                    git cherry-pick mvc-start
+                            </pre>
                         </li>
                     </ol>
                 </div>
@@ -141,7 +135,7 @@
                         <li>
                             <p>If you have the IntelliJ command line launcher enabled you can open
                                     the project in IntelliJ by typing <code>idea .</code> on the command line in
-                                    the project folder.</p>            
+                                    the project folder.</p>
                         </li>
                     </ol>
                 </div>
@@ -149,64 +143,228 @@
     
             <section id="lab003">
                 <h2 class="title"> 
-
+                    Setting up project 
                 </h2>
                 <div class="section-content">
+                    <ol>
+                        <li>
+                            Create a build.gradle file on your project 
+                        </li>
+                        <li>
+                            Create repositories, mavenCentral()    
+                        </li>
+                        <li>
+                            Apply Java and Spring boot plugin (2.0.2.RELEASE)
+                        </li>
+                        <li>
+                            Add spring boot starter web dependency
+                        </li>
+                        <li>
+                            End result should look like 
+                            <pre class="brush: html">
+                                plugins {
+                                    id "java"
+                                    id "org.springframework.boot" version "1.5.4.RELEASE"
+                                }
+                                
+                                repositories {
+                                    mavenCentral()
+                                }
+                                
+                                dependencies {
+                                    compile("org.springframework.boot:spring-boot-starter-web")
+                                }                                
+                            </pre>
+                        </li>  
+                        <li>
+                            Create settings.gradle file 
+                        </li>                      
+                        <li>
+                            Configure name of gradle project 
+                            <pre class="brush: html">
+                                rootProject.name = "pal-tracker"
+                            </pre>
+                        </li>
+                        <li>
+                            Refresh the Gradle project in your IDE so that it picks up your changes
+                        </li>
+                        <li>
+                            Create directory structure for project 
+                            <code>src/main/java</code> within pal-tracker directory
+                        </li>
+                        <li>
+                            Create package 
+                            <code>io.pivotal.pal.tracker</code>
+                        </li>
+                        <li>
+                            Add a main method to the PalTrackerApplication class and tell Spring to run
+                            <pre class="brush: html">
+                                package io.pivotal.pal.tracker;
+
+                                import org.springframework.boot.SpringApplication;
+                                import org.springframework.boot.autoconfigure.SpringBootApplication;
+                                
+                                @SpringBootApplication
+                                public class PalTrackerApplication {
+                                
+                                    public static void main(String[] args) {
+                                        SpringApplication.run(PalTrackerApplication.class, args);
+                                    }
+                                }                                
+                            </pre>
+
+                        </li>
+                        <li>
+                            Run your application and make sure you can run
+                        </li>
+                    </ol>
 
                 </div>
             </section>
     
             <section id="lab004">
                 <h2 class="title"> 
-
+                    Time Entries - Data Layer 
                 </h2>
                 <div class="section-content">
-
+                    <p>
+                        Build a Time Entry service which will expose a RESTful API for time entries.
+                    </p>
+                    <ol>
+                        <li>
+                            Create a TimeEntry class with the following fields:
+                            <pre class="brush: html">
+                                private long id;
+                                private long projectId;
+                                private long userId;
+                                private LocalDate date;
+                                private int hours;                                
+                            </pre>
+                        </li>
+                        <li>
+                            Create empty methods and stubs so that code compiles.
+                            Do not move to next step until code compiles 
+                            <pre class="brush: html">
+                                ./gradlew clean compileTestJava                                
+                            </pre>
+                        </li>
+                        <li>
+                            Implement the InMemoryTimeEntryRepository class which implements the TimeEntryRepository interface, using the InMemoryTimeEntryRepositoryTest as a guide. 
+                            <br>
+                            Run the test for new repository
+                            <br>
+                            Only pass to next step after test passes.  
+                        </li>
+                        <li>
+                                Declare a @Bean method which returns your implementation of the TimeEntryRepository in the PalTrackerApplication class
+                        </li>
+                    </ol>
                 </div>
             </section>
 
             <section id="lab005">
                 <h2 class="title"> 
-
+                    Time Entries - Object deserialization
                 </h2>
                 <div class="section-content">
+                    <ol>
+                        <li>
+                            Add a dependency on the Jackson Datatype: JSR310 library to build.gradle. This provides the capability to serialize and deserialize the Java8 time classes
+                            <pre class="brush: html">
+                                compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.1")
+                            </pre>
+                        </li>
+                        <li>
+                                Add a bean method that returns an instance of ObjectMapper which properly deserializes ISO-8601 dates into a LocalDate
+                                
+                                <br>
+                                Example solution below.
+                                <br>
+                                <pre class="brush: html">
+package io.pivotal.pal.tracker;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+
+@SpringBootApplication
+public class PalTrackerApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(PalTrackerApplication.class, args);
+    }
+
+    @Bean
+    TimeEntryRepository timeEntryRepository() {
+        return new InMemoryTimeEntryRepository();
+    }
+
+    @Bean
+    public ObjectMapper jsonObjectMapper() {
+        return Jackson2ObjectMapperBuilder.json()
+                .serializationInclusion(JsonInclude.Include.NON_NULL) // Don’t include null values
+                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS) //ISODate
+                .modules(new JavaTimeModule())
+                .build();
+    }
+}                                    
+                                </pre>
+                        </li>
+                    </ol>
 
                 </div>
             </section>
 
             <section id="lab006">
                 <h2 class="title"> 
-
+                    Time Entries - REST Controller
                 </h2>
                 <div class="section-content">
-
+                    <ol>
+                        <li>
+                            Create a TimeEntryController class . Controller will expose a RESTful API for time entries.
+                        </li>
+                        <li>
+                            Use the @RestController annotation.
+                            <br>
+                            This includes @ResponseBody annotation which automatically serializes objects into JSON when they are returned from a handler method
+                        </li>
+                        <li>
+                            Use appropriate annotations - @RequestMapping @GetMapping @PostMapping for handler methods  
+                        </li>
+                        <li>
+                            Controller methods should return a ResponseEntity type. 
+                            <br>
+                            This allows you to return objects (serialized into JSON) and to have control of the HTTP status codes.
+                        </li>
+                        <li>
+                            Use the TimeEntryControllerTest to guide you to build the TimeEntryController implementation
+                        </li>
+                        <li>
+                            Run full test suite 
+                            <pre class="brush: html">
+                                ./gradlew clean build                                
+                            </pre>
+                        </li>
+                    </ol>
                 </div>
             </section>
 
-            <section id="lab007">
+            <section id="extras">
                 <h2 class="title"> 
-
+                    Extras
                 </h2>
                 <div class="section-content">
-
-                </div>
-            </section>
-
-            <section id="lab008">
-                <h2 class="title"> 
-
-                </h2>
-                <div class="section-content">
-
-                </div>
-            </section>
-
-            <section id="lab009">
-                <h2 class="title"> 
-
-                </h2>
-                <div class="section-content">
-
+                        <p>If you are finished with this assignment before the rest of the class is
+                                done, try implementing a new API version alongside the current time
+                                entry controller.
+                                Take a look at the <a href="http://www.appcontinuum.io#v7-tag-versioning" rel="noreferrer noopener">App Continuum documentation</a>
+                                for ideas on how to implement api versioning.</p>
                 </div>
             </section>
             

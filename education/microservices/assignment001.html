@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <title>Education</title>
+    <meta name="description" content="">
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="shortcut icon" href="img/favicon.png"> -->
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet'>
+
+    <!-- Syntax Highlighter -->
+    <link rel="stylesheet" type="text/css" href="syntax-highlighter/styles/shCore.css" media="all">
+    <link rel="stylesheet" type="text/css" href="syntax-highlighter/styles/shThemeDefault.css" media="all">
+
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Normalize/Reset CSS-->
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <!-- Main CSS-->
+    <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+<body id="welcome">
+
+    <aside class="left-sidebar">
+        <div class="logo">
+            <a href="#welcome">
+                <img src="img/logo.png" alt="">
+            </a>
+        </div>
+        <nav class="left-nav">
+            <ul id="nav">
+                <li class="current">
+                    <a href="#intro">Session Summary</a>
+                </li>
+                <li>
+                    <a href="#lab001">Lab Setup</a>
+                </li>
+                <li>
+                    <a href="#lab002">Bootstrap the application</a>
+                </li>
+                <li>
+                    <a href="#lab003">Configuration</a>
+                </li>
+                <li>
+                    <a href="#lab004">IA Controller</a>
+                </li>
+                <li>
+                    <a href="#extras">Extras</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div id="main-wrapper">
+        <div class="main-content">
+            <section id="welcome">
+                <div class="content-header">
+                        <h1>IA Offers API</h1>
+                </div>
+                <div class="features">
+                </div>
+            </section>
+
+            <section id="intro">
+                <h2 class="title">Session Summary</h2>
+            </section>
+
+            <section id="lab001">
+                <h2 class="title"> 
+                    Lab Setup - Offers Microservice
+                </h2>
+                <div class="section-content">
+                    <ol>
+                        <li>
+                            Fork Offers  <a href="https://github.com/neelamari/offers">repo</a>  
+                        </li>
+                        <li>
+                            Clone the forked repo in your workspace 
+                            <pre class="brush: html">
+                                cd ~/workspace
+                                git clone  "your git url of forked repo"
+                                e.g git clone https://github.com/yourid/offers  
+                            </pre>
+                        </li>
+                        <li>
+                            Checkout branch v1-solution-start 
+                        </li>
+                        <li>
+                            Make a gradle <a href="https://docs.gradle.org/current/userguide/gradle_wrapper.html#sec:adding_wrapper">wrapper</a>
+                            <pre class="brush: html">
+                                    gradle wrapper 
+                            </pre>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+    
+            <section id="lab002">
+                <h2 class="title"> 
+                    Bootstrap the application 
+                </h2>
+                <div class="section-content">
+                    <ol>
+                        <li>
+                            <p>Open your project in IntelliJ.</p>
+                        </li>
+                        <li>
+                            <p>Make sure to use <strong>File &gt; Open</strong> to open your Gradle project rather
+                                than using the import feature.</p>            
+                        </li>
+                        <li>
+                            <p>If you have the IntelliJ command line launcher enabled you can open
+                                    the project in IntelliJ by typing <code>idea .</code> on the command line in
+                                    the project folder.</p>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+    
+            <section id="lab003">
+                <h2 class="title"> 
+                     Configuration.
+                </h2>
+                <div class="section-content">
+                    <ol>
+                        <li>
+                            Create or edit the application.yml file and add the following config
+                        </li>
+                        <li>
+                            <pre class="brush: html">
+ia:
+    url: ${IA_SERVICE_URL: https://mo1-015c-ixb-ia.wellsfargo.com:14231/crm/esa}
+wfa:
+    name: ${WFA_COOKIE_NAME: wfacookie}                                
+                            </pre>
+                        </li>
+                        <li>
+                            Create package <code>io.uslab.offers.config</code>
+                        </li>
+                        <li>
+                            Create IAConfig.java Config class . 
+                            Use the @ConfigurationProperties("ia") to prefix "ia" related config
+                        </li>
+                        <li>
+                            <pre class="brush: html">
+                                    package io.uslab.offers.config;
+
+
+                                    import org.springframework.boot.context.properties.ConfigurationProperties;
+                                    import org.springframework.boot.context.properties.EnableConfigurationProperties;
+                                    import org.springframework.context.annotation.Configuration;
+                                    
+                                    @Configuration
+                                    @EnableConfigurationProperties
+                                    @ConfigurationProperties("ia")
+                                    public class IAConfig {
+                                    
+                                        private String url;
+                                    
+                                        public String getUrl() {
+                                            return url;
+                                        }
+                                    
+                                        public void setUrl(String url) {
+                                            this.url = url;
+                                        }
+                                    }
+                                    
+                            </pre>
+                        </li>
+                        <li>
+                            Create wfacookieconfig.java class                             
+                            <pre class="brush: html">
+                                    package io.uslab.offers.config;
+
+                                    import org.springframework.boot.context.properties.ConfigurationProperties;
+                                    import org.springframework.boot.context.properties.EnableConfigurationProperties;
+                                    import org.springframework.context.annotation.Configuration;
+                                    
+                                    @Configuration
+                                    @EnableConfigurationProperties
+                                    @ConfigurationProperties("wfa")
+                                    public class WFACookieConfig {
+                                    
+                                        private String name;
+                                    
+                                        public String getName() {
+                                            return name;
+                                        }
+                                    
+                                        public void setName(String name) {
+                                            this.name = name;
+                                        }
+                                    }                            
+                            </pre>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+    
+            <section id="lab004">
+                <h2 class="title"> 
+                    IA Controller 
+                </h2>
+                <div class="section-content">
+                    <p>
+                        Build a IA Controller service which will returns Offers Data from IA.
+                    </p>
+                    <ol>
+                        <li>
+                            Create a package ia.uslab.offers.controller 
+                        </li>
+                        <li>
+                            Use the @RestController annotation.
+                            <br>
+                            This includes @ResponseBody annotation which automatically serializes objects into JSON when they are returned from a handler method
+                        </li>
+                        <li>
+                            Use appropriate annotations - @RequestMapping @GetMapping @PostMapping for handler methods  
+                        </li>
+                        <li>
+                            Controller methods should return a ResponseEntity type. 
+                            <br>
+                            This allows you to return objects (serialized into JSON) and to have control of the HTTP status codes.
+                        </li>
+                        <li>
+                            Use <code>RestTemplate</code> and <code>exchange</code> method to make a call to IA HTTP Endpoint to retrieve data
+                            Using the exchange method allows you to customize the header passed to call any HTTP endpoint. 
+                        </li>
+                        <li>
+                            IA Service requires "wfacookie" in header. So create a method to parse HTTP request & add the cookie to header. 
+                            Example is shown below.
+                            <pre class="brush: html">
+                                    public String addCookiesToHeader(HttpServletRequest request) {
+                                        String wfaCookieValue = "";
+                                        boolean wfaCookieFound = false;
+                                
+                                        if (request.getCookies() != null) {
+                                            Cookie[] cookies = request.getCookies();
+                                            for(Cookie cookie: cookies) {
+                                                if (wfaCookieConfig.getName().equals(cookie.getName())) {
+                                                    wfaCookieValue = cookie.getValue();
+                                                    wfaCookieFound = true;
+                                                }
+                                            }
+                                        }
+                                
+                                        if (wfaCookieFound == true) {
+                                            return wfaCookieConfig.getName() + "=" + wfaCookieValue + ";";
+                                        } else {
+                                            return null;
+                                        }
+                                    }
+                            </pre>
+                        </li>
+                        <li>
+                            Parse request query parameters and add to Hashmap. 
+                        </li>
+                        <li>
+                                <pre class="brush: php">
+public static MultiValueMap&lt;String, String&gt; parse(final String input) {
+    MultiValueMap&lt;String, String&gt; map = new LinkedMultiValueMap&lt;String, String&gt;();
+    for (String pair : input.split("&")) {
+        int index = pair.indexOf("=");
+        if (index == -1) {
+            map.add(pair, "");
+            continue;
+        }
+        String key = pair.substring(0, index);
+        String value = pair.substring(index + 1);
+        map.add(key, value);
+    }
+    return map;
+}
+</pre>
+                        </li>
+                        <li>
+                            Implement the getOffers method (GET method /offers). 
+                        </li>
+                        <li>
+                            <pre class="brush: html">
+                                    @RequestMapping(path = "/offers", method = RequestMethod.GET)                                
+                            </pre>    
+                        </li>
+                        <li>
+                            Take a look at example solution completed if you get stuck.
+                        </li>
+                        <li>
+                            <pre class="brush: html">
+package io.uslab.offers.controller;
+
+import io.uslab.offers.config.IAConfig;
+import io.uslab.offers.config.WFACookieConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
+@RestController
+public class IAController {
+
+@Autowired
+private RestTemplate restTemplate;
+
+@Autowired
+private IAConfig iaConfig;
+
+@Autowired
+private WFACookieConfig wfaCookieConfig;
+
+@CrossOrigin
+@RequestMapping(path = "/offers", method = RequestMethod.GET)
+public ResponseEntity<?> getOffers(HttpServletRequest request) {
+
+    String url = iaConfig.getUrl();
+    String cookies = addCookiesToHeader(request);
+    String responseBody = "";
+
+    if (cookies != null && !cookies.isEmpty()) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Cookie", cookies);
+
+        HttpEntity&lt;MultiValueMap&lt;String, String&gt;&gt; httpEntity =
+                new HttpEntity&lt;MultiValueMap&lt;String, String&gt;&gt;(
+                    parse(request.getQueryString()) ,
+                    httpHeaders
+        );
+
+        ResponseEntity&lt;String&gt; responseEntity = restTemplate.exchange(
+            url,
+            HttpMethod.POST,
+            httpEntity,
+            String.class
+        );
+
+        responseBody = removeComments(responseEntity.getBody());
+
+    }
+    //return ResponseEntity.ok(responseBody);
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+
+}
+
+public String addCookiesToHeader(HttpServletRequest request) {
+    String wfaCookieValue = "";
+    boolean wfaCookieFound = false;
+
+    if (request.getCookies() != null) {
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie: cookies) {
+            if (wfaCookieConfig.getName().equals(cookie.getName())) {
+                wfaCookieValue = cookie.getValue();
+                wfaCookieFound = true;
+            }
+        }
+    }
+
+    if (wfaCookieFound == true) {
+        return wfaCookieConfig.getName() + "=" + wfaCookieValue + ";";
+    } else {
+        return null;
+    }
+}
+
+private String removeComments(String input) {
+    return  input.substring(2, input.length() - 2);
+}
+
+public static MultiValueMap&lt;String, String&gt; parse(final String input) {
+    MultiValueMap&lt;String, String&gt; map = new LinkedMultiValueMap&lt;String, String&gt;();
+    for (String pair : input.split("&")) {
+        int index = pair.indexOf("=");
+        if (index == -1) {
+            map.add(pair, "");
+            continue;
+        }
+        String key = pair.substring(0, index);
+        String value = pair.substring(index + 1);
+        map.add(key, value);
+    }
+    return map;
+}
+}
+                                    
+                            </pre>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+
+            <section id="extras">
+                <h2 class="title"> 
+                    Extras
+                </h2>
+                <div class="section-content">
+                </div>
+            </section>
+            
+        </div>
+    </div>
+
+
+    <!-- Essential JavaScript Libraries
+	==============================================-->
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery.nav.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushCss.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="syntax-highlighter/scripts/shBrushPhp.js"></script>
+    <script type="text/javascript">
+        SyntaxHighlighter.all()
+    </script>
+    <script type="text/javascript" src="js/custom.js"></script>
+
+</body>
+
+</html>
